@@ -21,17 +21,6 @@
 
 #include "edgetx.h"
 
-#include "os/sleep.h"
-
-#if !defined(SIMU)
-#include <malloc.h>
-
-#include "boards/generic_stm32/rgb_leds.h"
-#include "stm32_hal.h"
-#include "stm32_hal_ll.h"
-#include "stm32_ws2812.h"
-#endif
-
 #include "hal/abnormal_reboot.h"
 #include "hal/adc_driver.h"
 #include "hal/audio_driver.h"
@@ -43,6 +32,7 @@
 #include "input_mapping.h"
 #include "io/frsky_firmware_update.h"
 #include "os/async.h"
+#include "os/sleep.h"
 #include "switches.h"
 #include "tasks.h"
 #include "tasks/mixer_task.h"
@@ -51,6 +41,14 @@
 
 #if defined(BLUETOOTH)
 #include "bluetooth_driver.h"
+#endif
+
+#if defined(CROSSFIRE)
+#include "telemetry/crossfire.h"
+#endif
+
+#if defined(CSD203_SENSOR)
+#include "csd203_sensor.h"
 #endif
 
 #if defined(LIBOPENUI)
@@ -64,17 +62,18 @@
 #include "view_text.h"
 #endif
 
-#if defined(CROSSFIRE)
-#include "telemetry/crossfire.h"
-#endif
-
-#if defined(CSD203_SENSOR)
-#include "csd203_sensor.h"
-#endif
-
 #if defined(LUA)
 #include "lua/custom_allocator.h"
 #include "lua/lua_states.h"
+#endif
+
+#if !defined(SIMU)
+#include <malloc.h>
+
+#include "boards/generic_stm32/rgb_leds.h"
+#include "stm32_hal.h"
+#include "stm32_hal_ll.h"
+#include "stm32_ws2812.h"
 #endif
 
 RadioData  g_eeGeneral;
