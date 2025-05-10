@@ -19,49 +19,49 @@
  * GNU General Public License for more details.
  */
 
+#include "edgetx.h"
+
 #include "os/sleep.h"
+
 #if !defined(SIMU)
-#include "stm32_ws2812.h"
+#include <malloc.h>
+
 #include "boards/generic_stm32/rgb_leds.h"
 #include "stm32_hal.h"
 #include "stm32_hal_ll.h"
+#include "stm32_ws2812.h"
 #endif
 
-#include "edgetx.h"
-#include "io/frsky_firmware_update.h"
-#include "hal/adc_driver.h"
-#include "hal/switch_driver.h"
-#include "hal/storage.h"
-#include "hal/watchdog_driver.h"
 #include "hal/abnormal_reboot.h"
-#include "hal/usb_driver.h"
+#include "hal/adc_driver.h"
 #include "hal/audio_driver.h"
-
-#include "timers_driver.h"
-
-#include "switches.h"
+#include "hal/storage.h"
+#include "hal/switch_driver.h"
+#include "hal/usb_driver.h"
+#include "hal/watchdog_driver.h"
 #include "inactivity_timer.h"
 #include "input_mapping.h"
-#include "trainer.h"
-
+#include "io/frsky_firmware_update.h"
+#include "os/async.h"
+#include "switches.h"
 #include "tasks.h"
 #include "tasks/mixer_task.h"
-#include "os/async.h"
+#include "timers_driver.h"
+#include "trainer.h"
 
 #if defined(BLUETOOTH)
-  #include "bluetooth_driver.h"
+#include "bluetooth_driver.h"
 #endif
 
 #if defined(LIBOPENUI)
-  #include "libopenui.h"
-  #include "radio_calibration.h"
-  #include "view_main.h"
-  #include "view_text.h"
-  #include "theme_manager.h"
-  #include "switch_warn_dialog.h"
-  #include "startup_shutdown.h"
-
-  #include "LvglWrapper.h"
+#include "LvglWrapper.h"
+#include "libopenui.h"
+#include "radio_calibration.h"
+#include "startup_shutdown.h"
+#include "switch_warn_dialog.h"
+#include "theme_manager.h"
+#include "view_main.h"
+#include "view_text.h"
 #endif
 
 #if defined(CROSSFIRE)
@@ -69,16 +69,12 @@
 #endif
 
 #if defined(CSD203_SENSOR)
-  #include "csd203_sensor.h"
-#endif
-
-#if !defined(SIMU)
-#include <malloc.h>
+#include "csd203_sensor.h"
 #endif
 
 #if defined(LUA)
-#include "lua/lua_states.h"
 #include "lua/custom_allocator.h"
+#include "lua/lua_states.h"
 #endif
 
 RadioData  g_eeGeneral;
