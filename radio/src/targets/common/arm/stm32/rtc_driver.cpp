@@ -109,7 +109,9 @@ void rtcInit()
 #if defined(STM32F4)
   __HAL_RCC_BKPSRAM_CLK_ENABLE();
 #endif
+#if !defined(STM32H5)
   HAL_PWREx_EnableBkUpReg();
+#endif
   HAL_PWR_EnableBkUpAccess();
 #endif
 }
@@ -120,7 +122,9 @@ void rtcDisableBackupReg()
 #if defined(STM32F4)
   __HAL_RCC_BKPSRAM_CLK_DISABLE();
 #endif
+#if !defined(STM32H5)
   HAL_PWREx_DisableBkUpReg();
+#endif
   HAL_PWR_DisableBkUpAccess();
 #endif
 }
