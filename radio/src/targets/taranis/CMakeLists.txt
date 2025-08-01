@@ -8,6 +8,7 @@ option(AUTOUPDATE "Auto update internal chips from SD" OFF)
 option(BIND_KEY "Enable bind button" OFF)
 option(BLUETOOTH "FrSky BT module support" OFF)
 option(RGBLEDS "WS2812 addressable LED support" OFF)
+option(INTERNAL_GPS "Support for internal GPS" OFF)
 
 set(USE_RTC_CLOCK YES)
 set(HARDWARE_EXTERNAL_MODULE YES)
@@ -650,6 +651,11 @@ add_library(board OBJECT EXCLUDE_FROM_ALL
 )
 set(FIRMWARE_SRC ${FIRMWARE_SRC} $<TARGET_OBJECTS:board>)
 
+if(INTERNAL_GPS)
+  set(INTERNAL_GPS_BAUDRATE "9600" CACHE STRING "Baud rate for internal GPS")
+  add_definitions(-DGPS_USART_BAUDRATE=${INTERNAL_GPS_BAUDRATE})
+endif()
+
 if(STATUS_LEDS)
   target_sources(board PRIVATE ${TARGET_SRC_DIR}/led_driver.cpp)
 endif()
@@ -725,5 +731,11 @@ set(FIRMWARE_SRC
   ${FIRMWARE_SRC}
   bootloader/loadboot.cpp
   )
+
+if(INTERNAL_GPS)
+  message("-- Internal GPS enabled")
+  add_definitions(-DINTERNAL_GPS)
+  set(SRC ${SRC} gps.cpp gps_nmea.cpp gps_ubx.cpp)
+endif()
 
 set(RADIO_DEPENDENCIES ${RADIO_DEPENDENCIES} ${BITMAPS_TARGET})
