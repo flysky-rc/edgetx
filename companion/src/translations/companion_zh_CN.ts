@@ -2292,6 +2292,11 @@ Do you want to import settings from a file?</source>
         <translation type="unfinished">%1s</translation>
     </message>
     <message>
+        <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
+        <source>Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="308"/>
         <source>Trims</source>
         <translation type="unfinished"></translation>
@@ -2470,11 +2475,6 @@ Do you want to import settings from a file?</source>
         <location filename="../firmwares/customfunctiondata.cpp" line="122"/>
         <source>Bind Ext. Module</source>
         <translation type="unfinished">外置高频头对频</translation>
-    </message>
-    <message>
-        <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
-        <source>Flight</source>
-        <translation type="unfinished">飞行  [Flight]</translation>
     </message>
     <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="305"/>

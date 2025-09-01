@@ -661,7 +661,7 @@ extern const char STR_PASTE_AFTER[];
 extern const char STR_PASTE_BEFORE[];
 extern const char STR_INSERT[];
 extern const char STR_DELETE[];
-extern const char STR_RESET_FLIGHT[];
+extern const char STR_RESET_SESSION[];
 extern const char STR_RESET_TIMER1[];
 extern const char STR_RESET_TIMER2[];
 extern const char STR_RESET_TIMER3[];

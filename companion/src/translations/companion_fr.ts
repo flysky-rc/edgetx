@@ -2277,6 +2277,11 @@ Voulez-vous importer les paramètres depuis un fichier ?</translation>
         <translation type="unfinished">%1s</translation>
     </message>
     <message>
+        <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
+        <source>Session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="308"/>
         <source>Trims</source>
         <translation type="unfinished">Trims</translation>
@@ -2460,11 +2465,6 @@ Voulez-vous importer les paramètres depuis un fichier ?</translation>
         <location filename="../firmwares/customfunctiondata.cpp" line="237"/>
         <source>Repeat %1s</source>
         <translation>Répéter %1s</translation>
-    </message>
-    <message>
-        <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
-        <source>Flight</source>
-        <translation>Vol</translation>
     </message>
     <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="305"/>

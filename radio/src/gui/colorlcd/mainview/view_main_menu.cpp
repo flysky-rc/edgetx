@@ -129,7 +129,7 @@ ViewMainMenu::ViewMainMenu(Window* parent, std::function<void()> closeHandler) :
       ICON_MODEL_TELEMETRY, STR_MAIN_MENU_RESET_TELEMETRY, [=]() -> uint8_t {
         deleteLater();
         Menu* resetMenu = new Menu();
-        resetMenu->addLine(STR_RESET_FLIGHT, []() { flightReset(); });
+        resetMenu->addLine(STR_RESET_SESSION, []() { flightReset(); });
         resetMenu->addLine(STR_RESET_TIMER1, []() { timerReset(0); });
         resetMenu->addLine(STR_RESET_TIMER2, []() { timerReset(1); });
         resetMenu->addLine(STR_RESET_TIMER3, []() { timerReset(2); });

@@ -2276,11 +2276,6 @@ Vill du hämta inställningarna från en fil?</translation>
         <translation>Tryck på Anpassingsbar brytare %1</translation>
     </message>
     <message>
-        <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
-        <source>Flight</source>
-        <translation>Flygning</translation>
-    </message>
-    <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="305"/>
         <source>Telemetry</source>
         <translation>Telemetri</translation>
@@ -2289,6 +2284,11 @@ Vill du hämta inställningarna från en fil?</translation>
         <location filename="../firmwares/customfunctiondata.cpp" line="154"/>
         <source>s</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
+        <source>Session</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="308"/>

@@ -2340,7 +2340,7 @@ Do you want to import settings from a file?</source>
     </message>
     <message>
         <location filename="../firmwares/customfunctiondata.cpp" line="302"/>
-        <source>Flight</source>
+        <source>Session</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
