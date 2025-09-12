@@ -57,9 +57,21 @@ static uint32_t _read_io_expander(bsp_io_expander* io)
     io->state = value;
   } else {
     gpio_clear(IO_RESET_GPIO);
-    TRACE("PCA95 was reset");
-    delay_us(1);  // Only 6ns are needed according to PCA datasheet, but lets be safe
+    delay_us(1);  // Only 4ns are needed according to PCA datasheet
     gpio_set(IO_RESET_GPIO);
+    // Re read
+    if (pca95xx_read(&io->exp, io->mask, &value) == 0) {
+      io->state = value;
+    } else {
+      // PCA reset did not work, I2C Bus needs reset
+      stm32_i2c_deinit(I2C_Bus_2);
+      bsp_io_init();
+      if (pca95xx_read(&io->exp, io->mask, &value) == 0) {
+        io->state = value;
+      } else {
+        TRACE("ERROR: Unrecoverable error on PCA95XX");
+      }
+    }
   }
   return io->state;  
 }
