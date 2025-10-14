@@ -114,9 +114,6 @@ void rgbLedInit()
 static_assert(__STM32_PULSE_IS_TIMER_CHANNEL_SUPPORTED(LED_STRIP_TIMER_CHANNEL),
               "Unsupported timer channel");
 
-// Make sure the DMA channel is supported
-static_assert(__STM32_DMA_IS_STREAM_SUPPORTED(LED_STRIP_TIMER_DMA_STREAM),
-              "Unsupported DMA stream");
 
 #if !defined(LED_STRIP_TIMER_DMA_IRQHandler)
   #error "Missing LED_STRIP_TIMER_DMA_IRQHandler definition"

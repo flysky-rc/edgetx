@@ -38,6 +38,27 @@ static const uint32_t fsLeds[] = {FSLED_GPIO_PIN_1, FSLED_GPIO_PIN_2,
 				  FSLED_GPIO_PIN_5, FSLED_GPIO_PIN_6};
 #endif
 
+#if defined(STATUS_RGB_LEDS)
+void ledOff()
+{
+  ws2812_set_color(0, 0, 0, 0);
+}
+
+void ledRed()
+{
+  ws2812_set_color(0, 255, 0, 0);
+}
+
+void ledGreen()
+{
+  ws2812_set_color(0, 0, 255, 0);
+}
+
+void ledBlue()
+{
+  ws2812_set_color(0, 0, 0, 255);
+}
+#else
 void ledInit()
 {
 #if defined(LED_GREEN_GPIO)
@@ -132,3 +153,4 @@ void ledBlue()
   GPIO_LED_GPIO_ON(LED_BLUE_GPIO);
 #endif
 }
+#endif

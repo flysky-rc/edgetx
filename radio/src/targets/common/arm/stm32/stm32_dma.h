@@ -41,7 +41,6 @@ inline static bool stm32_dma_check_ht_flag(DMA_TypeDef* DMAx, uint32_t DMA_Strea
 }
 
 #else // STM32H7RS
-
 #define __STM32_DMA_IS_STREAM_SUPPORTED(stream)                  \
   ((stream) == LL_DMA_STREAM_0 || (stream) == LL_DMA_STREAM_1 || \
    (stream) == LL_DMA_STREAM_2 || (stream) == LL_DMA_STREAM_3 || \

@@ -24,7 +24,7 @@
 #include "definitions.h"
 #include "dataconstants.h"
 
-#if defined(FUNCTION_SWITCHES_RGB_LEDS)
+#if defined(FUNCTION_SWITCHES_RGB_LEDS) && defined(STATUS_RGB_LEDS)
 static bool hasLedOverride[NUM_FUNCTIONS_SWITCHES] = { false };
 static RGBLedColor ledOverride[NUM_FUNCTIONS_SWITCHES];
 

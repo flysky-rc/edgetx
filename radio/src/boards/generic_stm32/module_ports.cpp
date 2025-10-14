@@ -279,7 +279,7 @@ static const stm32_pulse_timer_t trainerModuleTimer = {
 #define TELEMETRY_USART_IRQ_PRIORITY 0
 #define TELEMETRY_DMA_IRQ_PRIORITY   0
 
-#if !defined(STM32H7) && !defined(STM32H7RS)
+#if !defined(STM32H7) && !defined(STM32H7RS) && !defined(STM32H5)
 static void _set_sport_input(uint8_t enable)
 {
 #if defined(TELEMETRY_DIR_GPIO)

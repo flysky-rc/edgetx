@@ -7,7 +7,7 @@ option(INTERNAL_MODULE_PPM "Support for PPM internal module" OFF)
 option(AUTOUPDATE "Auto update internal chips from SD" OFF)
 option(BIND_KEY "Enable bind button" OFF)
 option(BLUETOOTH "FrSky BT module support" OFF)
-option(RGBLEDS "WS2812 addressable LED support" OFF)
+option(RGBLEDS "WS2812 addressable LED support" ON)
 
 set(USE_RTC_CLOCK YES)
 set(HARDWARE_EXTERNAL_MODULE YES)
@@ -24,7 +24,6 @@ set(GUI_DIR 128x64)
 set(BITMAPS_DIR 128x64)
 set(BITMAPS_TARGET 9x_bitmaps)
 set(FONTS_TARGET 9x_fonts_1bit)
-set(STATUS_LEDS YES)
 add_definitions(-DPCBX7 -DSOFTWARE_VOLUME)
 add_definitions(-DPWR_BUTTON_${PWR_BUTTON})
 set(DEFAULT_INTERNAL_MODULE CROSSFIRE CACHE STRING "Default internal module")
@@ -38,6 +37,7 @@ set(USE_RTC_CLOCK NO)
 set(CPU_TYPE_FULL STM32H562xx)
 set(ENABLE_SERIAL_PASSTHROUGH ON CACHE BOOL "Enable serial passthrough")
 add_definitions(-DRADIO_H5TEST)
+add_definitions(-DSTATUS_RGB_LEDS)
 
 
 set(CPU_TYPE STM32H5)
@@ -73,6 +73,7 @@ set(BOARD_COMMON_SRC
   targets/common/arm/stm32/pwr_driver.cpp
   targets/common/arm/stm32/rtc_driver.cpp
   targets/common/arm/stm32/watchdog_driver.cpp
+  targets/common/arm/stm32/stm32_ws2812.cpp
 )
 
 if(ROTARY_ENCODER)
