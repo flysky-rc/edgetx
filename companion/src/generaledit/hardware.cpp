@@ -416,6 +416,10 @@ HardwarePanel::HardwarePanel(QWidget * parent, GeneralSettings & generalSettings
     addParams();
   }
 
+  connect(this, &HardwarePanel::inputFlexTypeChanged, [=](AutoComboBox *cb, int index)
+    { setFlexTypeModel(cb, index); }
+  );
+  connect(this, &HardwarePanel::refreshItemModels, [=]() { updateItemModels(); });
   addVSpring(grid, 0, grid->rowCount());
   addHSpring(grid, grid->columnCount(), 0);
   disableMouseScrolling();
@@ -497,6 +501,7 @@ void HardwarePanel::addFlex(int index)
   name->setValidator(new NameValidator(board, this));
   name->setField(config.name, HARDWARE_NAME_LEN, this);
   params->append(name);
+  connect(name, &AutoLineEdit::editingFinished, [=] () { emit refreshItemModels(); });
 
   AutoComboBox *type = new AutoComboBox(this);
   setFlexTypeModel(type, index);
@@ -516,10 +521,9 @@ void HardwarePanel::addFlex(int index)
           } else {
             invertToggles[index - Boards::getCapability(board, Board::Sticks)]->show();
           }
-          emit InputFlexTypeChanged();
+          emit inputFlexTypeChanged(type, index);
+          emit refreshItemModels();
   });
-
-  connect(this, &HardwarePanel::InputFlexTypeChanged, [=]() { setFlexTypeModel(type, index); });
 
   params->append(type);
 
@@ -559,6 +563,7 @@ void HardwarePanel::addSwitch(int index)
   name->setValidator(new NameValidator(board, this));
   name->setField(config.name, HARDWARE_NAME_LEN, this);
   params->append(name);
+  connect(name, &AutoLineEdit::editingFinished, [=] () { emit refreshItemModels(); });
 
   AutoComboBox *input = nullptr;
 
@@ -589,6 +594,12 @@ void HardwarePanel::addSwitch(int index)
   type->setField(config.type, this);
   params->append(type);
 
+  if (!generalSettings.isSwitchFlex(index) && !generalSettings.isSwitchFunc(index)) {
+    connect(type, &AutoComboBox::currentDataChanged, [=] (int val) {
+            emit refreshItemModels();
+    });
+  }
+
   if (generalSettings.isSwitchFlex(index)) {
     connect(input, &AutoComboBox::currentDataChanged, [=] (int val) {
             if (val < 0) {
@@ -598,6 +609,8 @@ void HardwarePanel::addSwitch(int index)
             }
             else
               type->setModel(tabFilteredModels->getItemModel(FIM_SWITCHTYPE3POS));
+
+            emit refreshItemModels();
     });
   }
 
@@ -613,6 +626,7 @@ void HardwarePanel::addSwitch(int index)
 
     connect(type, &AutoComboBox::currentDataChanged, [=] (int val) {
             start->setEnabled(val == Board::SWITCH_2POS);
+            emit refreshItemModels();
     });
 
     if (Boards::getCapability(board, Board::FunctionSwitchColors)) {
@@ -727,4 +741,9 @@ void HardwarePanel::updateSerialPortUSBVCP()
     else
       view->setRowHidden(i, false);
   }
+}
+
+void HardwarePanel::updateItemModels()
+{
+  editorItemModels->update(AbstractItemModel::IMUE_Hardware);
 }
