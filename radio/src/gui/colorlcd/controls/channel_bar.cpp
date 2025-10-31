@@ -66,6 +66,14 @@ ChannelBar::ChannelBar(Window* parent, const rect_t& rect, uint8_t channel,
   checkEvents();
 }
 
+int divRoundClosest(int n, int d, uint8_t flg )
+{
+  if (d == 0)
+    return 0;
+  else
+    return ((n < 0) ^ (d < 0)) ? ((n)/d) : ((n)/d);
+}
+
 void ChannelBar::checkEvents()
 {
   Window::checkEvents();
@@ -74,14 +82,27 @@ void ChannelBar::checkEvents()
 
   if (value != newValue || extendedLimits != g_model.extendedLimits) {
     value = newValue;
-
     std::string s;
     if (g_eeGeneral.ppmunit == PPM_US)
       s = formatNumberAsString(PPM_CH_CENTER(channel) + value / 2, 0, 0, "", STR_US);
-    else if (g_eeGeneral.ppmunit == PPM_PERCENT_PREC1)
-      s = formatNumberAsString(calcRESXto1000(value), PREC1, 0, "", "%");
     else
-      s = formatNumberAsString(calcRESXto100(value), 0, 0, "", "%");
+    {
+      if( value>CHANNEL_DISPALY_DEADZONE || value<-CHANNEL_DISPALY_DEADZONE )
+      {
+        if (g_eeGeneral.ppmunit == PPM_PERCENT_PREC1)
+          s = formatNumberAsString(calcRESXto1000(value), PREC1, 0, "", "%");
+        else
+          s = formatNumberAsString(calcRESXto100(value), 0, 0, "", "%");
+      }
+      else
+      {
+          if (g_eeGeneral.ppmunit == PPM_PERCENT_PREC1)
+            s = formatNumberAsString(divRoundClosest( value*1000, RESX, 0 ), PREC1, 0, "", "%");
+          else
+            s = formatNumberAsString(divRoundClosest( value*100, RESX, 0 ), 0, 0, "", "%");
+      }
+    }
+
 
     if (s != valStr || extendedLimits != g_model.extendedLimits) {
       valStr = s;
@@ -242,14 +263,14 @@ ComboChannelBar::ComboChannelBar(Window* parent, const rect_t& rect,
   char chanString[10];
   char* s = strAppend(chanString, STR_CH);
   strAppendSigned(s, channel + 1);
-  new StaticText(this, {PAD_TINY + invMask->width, 0, LV_SIZE_CONTENT, ChannelBar::VAL_H}, chanString, 
+  new StaticText(this, {PAD_TINY + invMask->width, 0, LV_SIZE_CONTENT, ChannelBar::VAL_H}, chanString,
                  txtColIdx, FONT(XS) | LEFT);
 
   // Channel name
   if (g_model.limitData[channel].name[0]) {
     char nm[LEN_CHANNEL_NAME + 1];
     strAppend(nm, g_model.limitData[channel].name, LEN_CHANNEL_NAME);
-    new StaticText(this, {PAD_TINY + ChannelBar::VAL_W, 0, LV_SIZE_CONTENT, ChannelBar::VAL_H}, nm, 
+    new StaticText(this, {PAD_TINY + ChannelBar::VAL_W, 0, LV_SIZE_CONTENT, ChannelBar::VAL_H}, nm,
                    txtColIdx, FONT(XS) | LEFT);
   }
 

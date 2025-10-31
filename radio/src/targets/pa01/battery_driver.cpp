@@ -182,7 +182,7 @@ uint16_t get_battery_charge_state()
 }
 
 bool isChargerActive()
-{  
+{
   if (uCharger.isChargerDetectionReady) {
     // Detect the removal of the charger.
     get_battery_charge_state();
@@ -270,14 +270,14 @@ void drawChargingInfo(uint16_t chargeState) {
     etx_solid_bg(chargeWindow->getLvObj(), COLOR_THEME_PRIMARY1_INDEX);
 
     stateText = new StaticText(chargeWindow, {0, LCD_H - 50, LCD_W, 50}, "", COLOR_THEME_PRIMARY2_INDEX, CENTERED);
-    
+
     lv_obj_t* box = lv_obj_create(chargeWindow->getLvObj());
     lv_obj_set_pos(box, (LCD_W - BATTERY_W) / 2, BATTERY_TOP);
     lv_obj_set_size(box, BATTERY_W, BATTERY_H);
     lv_obj_set_style_border_opa(box, LV_OPA_COVER, LV_PART_MAIN);
     lv_obj_set_style_border_width(box, 2, LV_PART_MAIN);
     etx_border_color(box, COLOR_THEME_PRIMARY2_INDEX);
-    
+
     box = lv_obj_create(chargeWindow->getLvObj());
     lv_obj_set_pos(box, (LCD_W - BATTERY_CONNECTOR_W) / 2, BATTERY_TOP - BATTERY_CONNECTOR_H);
     lv_obj_set_size(box, BATTERY_CONNECTOR_W, BATTERY_CONNECTOR_H);
@@ -363,7 +363,7 @@ void handle_battery_charge(uint32_t last_press_time)
 
       sprintf(buffer, "%d,%d,%d,%d", uCharger.isChargerDetectionReady, uCharger.hasCharger, IS_UCHARGER_ACTIVE(), uCharger.chargerSamplingCount);
       lcd->drawSizedText(100, 10, buffer, strlen(buffer), CENTERED | COLOR_THEME_PRIMARY2);
-    
+
       sprintf(buffer, "%d,%d,%d,%d,%d,", uCharger.isChargingDetectionReady, uCharger.isChargeEnd, IS_UCHARGER_CHARGE_END_ACTIVE(), uCharger.chargingSamplingCount, uCharger.chargeEndSamplingCount);
       lcd->drawSizedText(100, 40, buffer, strlen(buffer), CENTERED | COLOR_THEME_PRIMARY2);
 
@@ -378,7 +378,45 @@ void handle_battery_charge(uint32_t last_press_time)
 
 #define MAX_BRIGHT      255
 #define CHARGING_BRIGHT  20
+void rgbBatteryDis(uint8_t color, uint8_t power_level ) {
 
+  switch (power_level)
+  {
+  case POWER_LEVEL_CRITICAL:
+  case POWER_LEVEL_LOW:
+      setLedGroupColor(0, color, CHARGING_BRIGHT);
+      setLedGroupColor(1, color, 0);
+      setLedGroupColor(2, color, 0);
+      setLedGroupColor(3, color, 0);
+    break;
+  case POWER_LEVEL_MEDIUM:
+      setLedGroupColor(0, color, CHARGING_BRIGHT);
+      setLedGroupColor(1, color, 0);
+      setLedGroupColor(2, color, 0);
+      setLedGroupColor(3, color, 0);
+    break;
+  case POWER_LEVEL_HIGH:
+      setLedGroupColor(0, color, CHARGING_BRIGHT);
+      setLedGroupColor(1, color, CHARGING_BRIGHT);
+      setLedGroupColor(2, color, 0);
+      setLedGroupColor(3, color, 0);
+    break;
+  case POWER_LEVEL_NEAR_FULL:
+      setLedGroupColor(0, color, CHARGING_BRIGHT);
+      setLedGroupColor(1, color, CHARGING_BRIGHT);
+      setLedGroupColor(2, color, CHARGING_BRIGHT);
+      setLedGroupColor(3, color, 0);
+    break;
+  case POWER_LEVEL_FULL:
+      setLedGroupColor(0, color, CHARGING_BRIGHT);
+      setLedGroupColor(1, color, CHARGING_BRIGHT);
+      setLedGroupColor(2, color, CHARGING_BRIGHT);
+      setLedGroupColor(3, color, CHARGING_BRIGHT);
+    break;
+  default:
+    break;
+  }
+}
 void rgbPowerOn(uint8_t color) {
   // Sequential RGB On
   static uint8_t power_on_step = RGB_STEP_POWER_AROUND;
@@ -393,18 +431,18 @@ void rgbPowerOn(uint8_t color) {
     case RGB_STEP_FUNC1:
       setLedGroupColor(0, color, MAX_BRIGHT);
       break;
-      
+
     case RGB_STEP_FUNC2:
       setLedGroupColor(1, color, MAX_BRIGHT);
-      break;   
+      break;
 
     case RGB_STEP_FUNC3:
       setLedGroupColor(2, color, MAX_BRIGHT);
-      break;  
+      break;
 
     case RGB_STEP_FUNC4:
       setLedGroupColor(3, color, MAX_BRIGHT);
-      break;  
+      break;
 
   default:
     break;
@@ -436,7 +474,7 @@ void rgbBatteryLevelInfo(uint8_t power_level, uint8_t rgb_state) {
       setLedGroupColor(2, color, 0);
       setLedGroupColor(3, color, 0);
     }
-    break; 
+    break;
 
   case POWER_LEVEL_MEDIUM:
     color = RGB_COLOR_PURPLE;
@@ -446,7 +484,7 @@ void rgbBatteryLevelInfo(uint8_t power_level, uint8_t rgb_state) {
       setLedGroupColor(2, color, 0);
       setLedGroupColor(3, color, 0);
     }
-    break;  
+    break;
 
   case POWER_LEVEL_HIGH:
     color = RGB_COLOR_YELLOW;
@@ -456,17 +494,17 @@ void rgbBatteryLevelInfo(uint8_t power_level, uint8_t rgb_state) {
       setLedGroupColor(1, color, CHARGING_BRIGHT);
       setLedGroupColor(3, color, 0);
     }
-    break;  
+    break;
 
   case POWER_LEVEL_NEAR_FULL:
-    color = RGB_COLOR_GREEN;   
+    color = RGB_COLOR_GREEN;
     if (rgb_state == RGB_STATE_CHARGE) {
       breath_index |= RGB_GROUP_MASK_FUNC_4;
       setLedGroupColor(0, color, CHARGING_BRIGHT);
       setLedGroupColor(1, color, CHARGING_BRIGHT);
       setLedGroupColor(2, color, CHARGING_BRIGHT);
     }
-    break;  
+    break;
 
   case POWER_LEVEL_FULL:
     color = RGB_COLOR_GREEN;
@@ -476,7 +514,7 @@ void rgbBatteryLevelInfo(uint8_t power_level, uint8_t rgb_state) {
       setLedGroupColor(2, color, CHARGING_BRIGHT);
       setLedGroupColor(3, color, CHARGING_BRIGHT);
     }
-    break;  
+    break;
 
   default:
     break;
@@ -492,11 +530,13 @@ void rgbBatteryLevelInfo(uint8_t power_level, uint8_t rgb_state) {
     breath_index |= RGB_GROUP_MASK_AROUND_L | RGB_GROUP_MASK_AROUND_R | RGB_GROUP_MASK_POWER;
     ledSetGroup(breath_index);
     break;
-  
+
   case RGB_STATE_POWER_ON:
     rgbPowerOn(color);
+  case RGB_STATE_BAT_DIS:
+    rgbBatteryDis(color, power_level);
     break;
-  
+
   default:
     break;
   }
@@ -510,7 +550,7 @@ void rgbBatteryLevelInfo(uint8_t power_level, uint8_t rgb_state) {
 #define PI 3.14159265358979323846f
 #define BREATH_STEP 0.0089759771428571  // PI / 350.0f; // step size
 
-typedef struct 
+typedef struct
 {
   uint8_t led_color;
   uint8_t led_state;
@@ -564,7 +604,7 @@ uint8_t ledBreathBright(float angle, uint8_t maxBright) {
 
 void ledBreathUpdate(uint8_t state, uint8_t color, uint8_t group) {
   static uint32_t breath_tick = 0;
-  
+
   if (timersGetMsTick() - breath_tick < BREATH_INTERVAL && breath_tick != 0) {
     if (state == RGB_STATE_BREATH || state == RGB_STATE_CHARGE) {
       return;
@@ -573,7 +613,7 @@ void ledBreathUpdate(uint8_t state, uint8_t color, uint8_t group) {
   breath_tick = timersGetMsTick();
   uint8_t bright = 0;
   static float breath_angle = 0;
- 
+
   bright = ledBreathBright(breath_angle, state == RGB_STATE_CHARGE ? CHARGING_BRIGHT : MAX_BRIGHT);
   breath_angle += BREATH_STEP;
   if (breath_angle > PI) breath_angle = 0; // reset angle
@@ -597,7 +637,10 @@ void ledLoop(void) {
   } else if (led_info.led_state == RGB_STATE_POWER_ON) {
     rgbLedColorApply();
     return;
-  } else if (led_info.led_state == RGB_STATE_NONE) {
+  } else if (led_info.led_state == RGB_STATE_BAT_DIS) {
+    rgbLedColorApply();
+    return;
+  }else if (led_info.led_state == RGB_STATE_NONE) {
     return;
   }
   ledBreathUpdate(led_info.led_state, led_info.led_color, led_info.led_group);

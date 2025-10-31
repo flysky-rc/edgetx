@@ -116,7 +116,8 @@ void EXTERNAL_MODULE_OFF();           /*gpio_clear(EXTMODULE_PWR_GPIO)*/
 #endif
 
 #define NUM_TRIMS                       4
-#define DEFAULT_STICK_DEADZONE          2
+#define DEFAULT_STICK_DEADZONE          5
+#define CHANNEL_DISPALY_DEADZONE        10
 
 #define BATTERY_WARN                  74 // 7.4V
 #define BATTERY_MIN                   70 // 6.8V
@@ -150,7 +151,7 @@ bool pwrOffPressed();
   #define pwrForcePressed() false
 #endif
 uint32_t pwrPressedDuration();;
-  
+
 const etx_serial_port_t* auxSerialGetPort(int port_nr);
 #define AUX_SERIAL_POWER_ON()
 #define AUX_SERIAL_POWER_OFF()
@@ -206,7 +207,7 @@ bool isBacklightEnabled();
 #define IS_UCHARGER_ACTIVE()              gpio_read(UCHARGER_GPIO) ? 1 : 0
 #define IS_UCHARGER_CHARGE_END_ACTIVE()   gpio_read(UCHARGER_CHARGE_END_GPIO) ? 0 : 1
 #define ENABLE_UCHARGER()                 bsp_output_set(BSP_CHARGE_EN);
-#define DISABLE_UCHARGER()                bsp_output_clear(BSP_CHARGE_EN)  
+#define DISABLE_UCHARGER()                bsp_output_clear(BSP_CHARGE_EN)
 
 // Audio driver
 void audioInit();
@@ -253,6 +254,7 @@ enum rgb_state_e {
   RGB_STATE_OFF,
   RGB_STATE_POWER_ON,
   RGB_STATE_POWER_OFF,
+  RGB_STATE_BAT_DIS,
 };
 
 enum rgb_color_e {

@@ -144,7 +144,7 @@
 #define ADC_GPIO_PIN_STICK_RV
 #define ADC_GPIO_PIN_STICK_RH
 
-#define ADC_GPIO_PIN_SLIDER1            LL_GPIO_PIN_3      // PA.03  S1 
+#define ADC_GPIO_PIN_SLIDER1            LL_GPIO_PIN_3      // PA.03  S1
 #define ADC_GPIO_PIN_SLIDER2            LL_GPIO_PIN_5      // PA.05  S2
 
 #define ADC_GPIO_PIN_SWB                LL_GPIO_PIN_5      // PC.05
@@ -209,7 +209,7 @@
 // Power
 #define PWR_SWITCH_GPIO             GPIO_PIN(GPIOE, 6) // PE.06
 #define PWR_ON_GPIO                 GPIO_PIN(GPIOE, 3) // PE.03
-#define SHORT_LONG_PRESS
+// #define SHORT_LONG_PRESS
 
 // USB Chargers
 #define UCHARGER_GPIO               GPIO_PIN(GPIOB, 0)  // PB.00
@@ -436,11 +436,11 @@
 // Trainer Port
 #define TRAINER_RCC_AHB1Periph          (RCC_AHB1Periph_GPIOD)
 
-#define TRAINER_IN_GPIO                 GPIO_PIN(GPIOA, 10) // PA.10
-#define TRAINER_IN_TIMER_Channel        LL_TIM_CHANNEL_CH3
+#define TRAINER_IN_GPIO                 GPIO_PIN(GPIOA, 9) // PA.09
+#define TRAINER_IN_TIMER_Channel        LL_TIM_CHANNEL_CH2
 
-#define TRAINER_OUT_GPIO                GPIO_PIN(GPIOA,  9) // PA.09
-#define TRAINER_OUT_TIMER_Channel       LL_TIM_CHANNEL_CH2
+#define TRAINER_OUT_GPIO                GPIO_PIN(GPIOA,  10) // PA.10
+#define TRAINER_OUT_TIMER_Channel       LL_TIM_CHANNEL_CH3
 
 #define TRAINER_TIMER                   TIM1
 #define TRAINER_TIMER_IRQn              TIM1_CC_IRQn
